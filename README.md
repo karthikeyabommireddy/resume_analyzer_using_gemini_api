@@ -70,6 +70,12 @@ The project is built on a modern, serverless architecture that is efficient, sca
 * **PDF Parsing (PDF.js):** Text extraction is handled entirely on the client-side for speed and privacy. This avoids the need to upload and store sensitive user files on a server.
 * **Deployment (Netlify):** Connected via GitHub for seamless Continuous Integration and Continuous Deployment (CI/CD). Environment variables are managed securely through the Netlify UI.
 
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/22e9f843-1df5-4fc7-b586-4fe2b80e6080" />
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/a1d8d8ab-15fa-480c-9e77-75d5682cd302" />
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/4d2d9a14-d0cd-47e5-8078-c78c8ccf6273" />
+<img width="1919" height="1077" alt="image" src="https://github.com/user-attachments/assets/7fdb12ce-227f-475d-a573-93f6f0fb80ab" />
+<img width="1917" height="1075" alt="image" src="https://github.com/user-attachments/assets/f13eedc2-d303-4e77-875b-bc2cf8c37ca9" />
+
 # 🔧 Challenges & Learnings
 
 Building this project involved overcoming several technical challenges, leading to significant learning:
