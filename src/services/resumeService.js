@@ -1,4 +1,3 @@
-import { supabase } from '../config/supabase.js'
 import { model } from '../config/gemini.js'
 
 // export const analyzeResumeText = async (resumeText) => {
@@ -244,32 +243,38 @@ Important:
 
 export const saveResumeAnalysis = async (fileName, analysisData) => {
   try {
-    const { data, error } = await supabase
-      .from('resumes')
-      .insert([
-        {
-          file_name: fileName,
-          name: analysisData.name,
-          email: analysisData.email,
-          phone: analysisData.phone,
-          linkedin_url: analysisData.linkedin_url,
-          portfolio_url: analysisData.portfolio_url,
-          summary: analysisData.summary,
-          work_experience: analysisData.work_experience,
-          education: analysisData.education,
-          technical_skills: analysisData.technical_skills,
-          soft_skills: analysisData.soft_skills,
-          projects: analysisData.projects,
-          certifications: analysisData.certifications,
-          resume_rating: analysisData.resume_rating, // This will now be 1-10
-          improvement_areas: analysisData.improvement_areas,
-          upskill_suggestions: analysisData.upskill_suggestions
-        }
-      ])
-      .select()
-
-    if (error) throw error
-    return data[0]
+    // Get existing resumes from localStorage
+    const existingResumes = JSON.parse(localStorage.getItem('resumeHistory') || '[]');
+    
+    // Create new resume entry with timestamp and unique ID
+    const newResume = {
+      id: Date.now().toString(),
+      file_name: fileName,
+      name: analysisData.name,
+      email: analysisData.email,
+      phone: analysisData.phone,
+      linkedin_url: analysisData.linkedin_url,
+      portfolio_url: analysisData.portfolio_url,
+      summary: analysisData.summary,
+      work_experience: analysisData.work_experience,
+      education: analysisData.education,
+      technical_skills: analysisData.technical_skills,
+      soft_skills: analysisData.soft_skills,
+      projects: analysisData.projects,
+      certifications: analysisData.certifications,
+      resume_rating: analysisData.resume_rating,
+      improvement_areas: analysisData.improvement_areas,
+      upskill_suggestions: analysisData.upskill_suggestions,
+      uploaded_at: new Date().toISOString()
+    };
+    
+    // Add to beginning of array (most recent first)
+    existingResumes.unshift(newResume);
+    
+    // Save back to localStorage
+    localStorage.setItem('resumeHistory', JSON.stringify(existingResumes));
+    
+    return newResume;
   } catch (error) {
     console.error('Error saving resume analysis:', error)
     throw new Error('Failed to save resume analysis.')
@@ -278,13 +283,8 @@ export const saveResumeAnalysis = async (fileName, analysisData) => {
 
 export const getAllResumes = async () => {
   try {
-    const { data, error } = await supabase
-      .from('resumes')
-      .select('*')
-      .order('uploaded_at', { ascending: false })
-
-    if (error) throw error
-    return data
+    const resumes = JSON.parse(localStorage.getItem('resumeHistory') || '[]');
+    return resumes;
   } catch (error) {
     console.error('Error fetching resumes:', error)
     throw new Error('Failed to fetch resumes.')
@@ -344,12 +344,15 @@ Important:
 
 export const deleteResumeAnalysis = async (resumeId) => {
   try {
-    const { error } = await supabase
-      .from('resumes')
-      .delete()
-      .eq('id', resumeId)
-
-    if (error) throw error;
+    // Get existing resumes from localStorage
+    const existingResumes = JSON.parse(localStorage.getItem('resumeHistory') || '[]');
+    
+    // Filter out the resume with the given ID
+    const updatedResumes = existingResumes.filter(resume => resume.id !== resumeId);
+    
+    // Save back to localStorage
+    localStorage.setItem('resumeHistory', JSON.stringify(updatedResumes));
+    
     return true; // Return true on success
   } catch (error) {
     console.error('Error deleting resume analysis:', error);

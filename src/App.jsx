@@ -133,7 +133,7 @@ function App() {
       )}
 
       <footer className="app-footer">
-        <p>Powered by Google Gemini AI • Built with React & Supabase</p>
+        <p>Powered by Google Gemini AI • Built with React</p>
       </footer>
     </div>
   )
