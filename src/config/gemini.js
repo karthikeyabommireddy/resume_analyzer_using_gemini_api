@@ -1,7 +1,12 @@
 import { GoogleGenerativeAI } from '@google/generative-ai'
 
-// Using the new API key with gemini-2.5-flash model
-const API_KEY = 'AIzaSyCAKsZ-UjRl7s5yuo4RaRGHFsCKD6xeBAU';
+// Get API key from environment variables
+const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
+
+if (!API_KEY) {
+  throw new Error('VITE_GEMINI_API_KEY is not defined in environment variables');
+}
+
 const genAI = new GoogleGenerativeAI(API_KEY)
 
 // Using gemini-2.5-flash (the correct model name for the newer API)
